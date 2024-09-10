@@ -1,13 +1,19 @@
-import './App.css'
-import { Home } from './pages/Home'
-import { NotFound } from './pages/NotFound'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { NotFound } from './pages/NotFound';
+import { LocationListing } from './pages/LocationListing';
 
 function App() {
 
   return (
     <>
-      <Home />
-      {/* <NotFound /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/locations' element={<LocationListing />}></Route>
+          <Route path='*' element={<NotFound />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
