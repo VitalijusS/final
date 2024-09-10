@@ -1,11 +1,13 @@
 import './App.css'
-import { Header } from './components/header/Header'
+import { Home } from './pages/Home'
+import { NotFound } from './pages/NotFound'
 
 function App() {
 
   return (
     <>
-      <Header />
+      <Home />
+      {/* <NotFound /> */}
     </>
   )
 }
