@@ -1,8 +1,19 @@
 import express from 'express';
 import { env } from './env.js'
 import { apiRouter } from './router/api.js';
+import cors from 'cors';
+import helmet from 'helmet';
 
 const app = express();
+const corsOptions = {
+    credentials: true,
+    origin: 'http://localhost:' + env.CLIENT_PORT,
+}
+const helmetOptions = {
+    crossOriginResourcePolicy: false,
+}
+app.use(cors(corsOptions));
+app.use(helmet(helmetOptions))
 
 app.use(express.json({ type: 'application/json' }));
 app.use(express.urlencoded({ extended: true }))
