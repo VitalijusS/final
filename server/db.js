@@ -22,6 +22,6 @@ setInterval(async () => {
             // console.log(error);
         }
     }
-}, 1000);
+}, 5000);
 
 export default connection;
