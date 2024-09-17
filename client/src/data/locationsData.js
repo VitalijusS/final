@@ -1,6 +1,6 @@
-import img1 from '../assets/locations/img1.jpg';
-import img2 from '../assets/locations/img2.jpg';
-import img3 from '../assets/locations/img3.jpg';
+import img1 from 'locations/img1.jpg';
+import img2 from 'locations/img2.jpg';
+import img3 from 'locations/img3.jpg';
 
 export const locationsData = [
     {

@@ -1,21 +1,67 @@
+import { useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
 
 export function Register() {
+    const [username, setUsername] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [isFormValidated, setIsFormValidated] = useState(false);
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    function submitForm(e) {
+        e.preventDefault();
+
+        setIsFormValidated(true);
+
+        const minUsernameLength = 3;
+        const maxUsernameLength = 20;
+        const minPasswordLength = 12;
+        const maxPasswordLength = 100;
+
+        let usernameError = '';
+        if (username.length > maxUsernameLength) {
+            usernameError = 'Username is too long(max 20)';
+        } else if (username.length < minUsernameLength) {
+            usernameError = 'Username is too shot(min 3)';
+        }
+        setUsernameError(usernameError);
+
+        let passwordError = '';
+        if (password.length > maxPasswordLength) {
+            passwordError = 'Password is too long(max 100)';
+        } else if (password.length < minPasswordLength) {
+            passwordError = 'Password is too short(min 12)';
+        }
+        setPasswordError(passwordError);
+
+        if (!usernameError && !passwordError) {
+            console.log('registered');
+        }
+    }
+
     return (
         <>
             <Header />
             <main className="form-signin container w-50">
-                <form className="row-12">
+                <form onSubmit={submitForm} className="row-12">
                     <h1 className="h3 mb-3 fw-normal">Register</h1>
 
                     <div className="form-floating">
-                        <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com"></input>
+                        <input type="text"
+                            className={"form-control " + (!isFormValidated ? null : usernameError ? 'is-invalid' : 'is-valid')}
+                            id="floatingInput" placeholder="Bill" value={username} onChange={e => setUsername(e.target.value.trim())}></input>
                         <label htmlFor="floatingInput">User name</label>
+                        {usernameError && <p className="alert alert-danger">{usernameError}</p>}
                     </div>
                     <div className="form-floating">
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="Password"></input>
+                        <input value={password} onChange={e => setPassword(e.target.value)}
+                            type="password" className={`form-control ` +
+                                (!isFormValidated ? null : passwordError ? 'is-invalid' : 'is-valid')} id="password"
+                            placeholder="Password">
+                        </input>
                         <label htmlFor="floatingPassword">Password</label>
+                        {passwordError && <p className="alert alert-danger ">{passwordError}</p>}
                     </div>
                     <button className="btn btn-primary w-100 py-2 mt-3" type="submit">Register</button>
                 </form>
