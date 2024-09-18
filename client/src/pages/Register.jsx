@@ -8,6 +8,7 @@ export function Register() {
     const [isFormValidated, setIsFormValidated] = useState(false);
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [apiResponse, setApiResponse] = useState(null);
 
     function submitForm(e) {
         e.preventDefault();
@@ -40,7 +41,9 @@ export function Register() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
-            })
+            }).then(res => res.json())
+                .then(data => setApiResponse(data))
+                .catch(err => console.log(err));
         }
     }
 
@@ -50,7 +53,8 @@ export function Register() {
             <main className="form-signin container w-50">
                 <form onSubmit={submitForm} className="row-12">
                     <h1 className="h3 mb-3 fw-normal">Register</h1>
-
+                    {apiResponse && apiResponse.status === 'Success' ? <p className="alert alert-success">Success</p> : null}
+                    {apiResponse && apiResponse.status === 'Error' ? <p className="alert alert-danger">{apiResponse.data}</p> : null}
                     <div className="form-floating">
                         <input type="text"
                             className={"form-control " + (!isFormValidated ? null : usernameError ? 'is-invalid' : 'is-valid')}

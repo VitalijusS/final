@@ -2,9 +2,9 @@ import express from 'express';
 import { isValidPassword, isValidUserName } from '../../lib/isValid.js';
 import connection from '../../db.js';
 
-export const registerApiRouter = express.Router();
+export const loginApiRouter = express.Router();
 
-registerApiRouter.post('/', async (req, res) => {
+loginApiRouter.post('/', async (req, res) => {
     const data = req.body;
     if (typeof data !== 'object' || Array.isArray(data) || data === null) {
         return res.json({
@@ -37,39 +37,56 @@ registerApiRouter.post('/', async (req, res) => {
             data: passwordError,
         });
     }
+    let userData = null;
     try {
-        const sql = 'SELECT username FROM users WHERE username = ?;';
-        const result = await connection.execute(sql, [username]);
-        if (result[0].length !== 0) {
+        const sql = 'SELECT * FROM users WHERE username = ? AND password = ?;';
+        const result = await connection.execute(sql, [username, password]);
+        if (result[0].length !== 1) {
             return res.json({
                 status: 'Error',
-                data: 'Username is taken',
+                data: 'No user with this password',
             });
         }
-
+        userData = result[0][0];
     } catch (error) {
         return res.json({
             status: 'Error',
-            data: error,
+            data: "Thechnical difficulties",
         });
     }
-
+    const abc = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    let token = '';
+    for (let i = 0; i < 20; i++) {
+        token += abc[Math.floor(Math.random() * abc.length)]
+    }
     try {
-        const sql = `INSERT INTO users (username, password) VALUES (?,?);`;
-        await connection.execute(sql, [username, password]);
+        const sql = `INSERT INTO tokens (token, user_id) VALUES (?,?);`;
+        await connection.execute(sql, [token, userData.id]);
     } catch (error) {
         return res.json({
             status: 'Error',
-            data: error,
+            data: "Error creating a session",
         });
     }
-
-    return res.json({
-        status: 'Success',
-        data: req.body,
-    });
+    const cookie = [
+        'loginToken=' + token,
+        'path=/',
+        'domain=localhost',
+        'max-age=3600',
+        // 'Secure',
+        'SameSite=Lax',
+        'HttpOnly'
+    ]
+    return res
+        .set('Set-Cookie', cookie.join('; '))
+        .json({
+            status: 'Success',
+            data: 'Login was successful',
+        });
 })
-registerApiRouter.all('/', (req, res) => {
+
+
+loginApiRouter.all('/', (req, res) => {
     return res.json({
         status: 'Error',
         data: "This method is not supported",
