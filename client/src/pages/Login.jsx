@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
+import { useNavigate } from "react-router-dom";
+
 
 export function Login() {
     const [username, setUsername] = useState('');
@@ -9,6 +11,8 @@ export function Login() {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
+
+    const navigate = useNavigate();
 
     function submitForm(e) {
         e.preventDefault();
@@ -40,9 +44,16 @@ export function Login() {
             fetch('http://localhost:5020/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ username, password }),
             }).then(res => res.json())
-                .then(data => setApiResponse(data))
+                .then(data => {
+                    setApiResponse(data)
+                    if (data.status === 'Success') {
+                        // changeLoginStatus(true);
+                        navigate('/dashboard');
+                    }
+                })
                 .catch(err => console.log(err));
         }
     }
