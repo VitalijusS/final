@@ -84,6 +84,21 @@ loginApiRouter.post('/', async (req, res) => {
             data: 'Login was successful',
         });
 })
+loginApiRouter.get('/', async (req, res) => {
+    const cookies = req.headers.cookie
+        .split(';')
+        .map(s => s.trim().split('='))
+        .reduce((total, item) => ({ ...total, [item[0]]: [item[1]] }));
+
+    console.log(cookies);
+
+
+    return res.json({
+        isLoggedIn: false
+    })
+})
+
+
 
 
 loginApiRouter.all('/', (req, res) => {

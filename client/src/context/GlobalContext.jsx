@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const initialContext = {
     isLoggedIn: false,
@@ -10,7 +10,14 @@ export const GlobalContext = createContext(initialContext);
 
 export function GlobalContextWraper(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
-
+    useEffect(() => {
+        fetch('http://localhost:5020/api/login', {
+            method: 'GET',
+            credentials: 'include',
+        }).then(res => res.json())
+            .then(data => setIsLoggedIn(data.isLoggedIn))
+            .catch(e => console.log(e))
+    }, []);
     function changeLoginStatus(newStatus = false) {
         setIsLoggedIn(newStatus);
     }

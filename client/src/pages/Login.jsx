@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
 import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
 
 
 export function Login() {
@@ -12,6 +13,7 @@ export function Login() {
     const [passwordError, setPasswordError] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
 
+    const { changeLoginStatus } = useContext(GlobalContext)
     const navigate = useNavigate();
 
     function submitForm(e) {
@@ -50,7 +52,7 @@ export function Login() {
                 .then(data => {
                     setApiResponse(data)
                     if (data.status === 'Success') {
-                        // changeLoginStatus(true);
+                        changeLoginStatus(true);
                         navigate('/dashboard');
                     }
                 })
