@@ -22,7 +22,6 @@ export function Dashboard() {
                     <p>Need to be logged in to view this page </p>
                 </main>
             }
-
             <Footer />
         </>
     )
