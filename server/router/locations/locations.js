@@ -10,8 +10,8 @@ locationsApiRouter.get('/', async (req, res) => {
         dataFromServer = await connection.execute(sql);
     } catch (error) {
         dataFromServer = [[]];
-
     }
+
     return res.json({
         status: 'Success',
         data: dataFromServer[0],
