@@ -3,6 +3,8 @@ import { env } from './env.js'
 import { apiRouter } from './router/api.js';
 import cors from 'cors';
 import helmet from 'helmet';
+import { cookieParser } from './middleware/cookie.js';
+import { userDetails } from './middleware/user.js';
 
 const app = express();
 const corsOptions = {
@@ -23,6 +25,9 @@ app.use(helmet(helmetOptions))
 
 app.use(express.json({ type: 'application/json' }));
 app.use(express.urlencoded({ extended: true }))
+
+app.use(cookieParser);
+app.use(userDetails);
 
 app.use('/api', apiRouter)
 

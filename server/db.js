@@ -11,7 +11,7 @@ try {
     connection = await mysql.createConnection(dbOptions)
 
 } catch (error) {
-    // console.log(error);
+    // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 }
 
 setInterval(async () => {
