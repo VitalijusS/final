@@ -82,11 +82,14 @@ loginApiRouter.post('/', async (req, res) => {
         .json({
             status: 'Success',
             data: 'Login was successful',
+            isLoggedIn: true,
+            role: userData.role,
         });
 })
 loginApiRouter.get('/', async (req, res) => {
     return res.json({
         isLoggedIn: req.user.isLoggedIn,
+        role: req.user.role,
     })
 })
 

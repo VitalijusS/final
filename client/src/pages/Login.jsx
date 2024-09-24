@@ -6,14 +6,14 @@ import { GlobalContext } from "../context/GlobalContext";
 
 
 export function Login() {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('jonas');
     const [usernameError, setUsernameError] = useState('');
     const [isFormValidated, setIsFormValidated] = useState(false);
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('jonasjonasjonas');
     const [passwordError, setPasswordError] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
 
-    const { changeLoginStatus } = useContext(GlobalContext)
+    const { changeLoginStatus, changeRole } = useContext(GlobalContext)
     const navigate = useNavigate();
 
     function submitForm(e) {
@@ -52,7 +52,8 @@ export function Login() {
                 .then(data => {
                     setApiResponse(data)
                     if (data.status === 'Success') {
-                        changeLoginStatus(true);
+                        changeLoginStatus(data.isLoggedIn);
+                        changeRole(data.role)
                         navigate('/dashboard');
                     }
                 })

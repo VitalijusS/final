@@ -6,8 +6,12 @@ export function Header() {
     const { isLoggedIn, changeLoginStatus } = useContext(GlobalContext);
     const navigate = useNavigate();
     function logout() {
-        navigate('/');
-        changeLoginStatus(false);
+        fetch('http://localhost:5020/api/logout', {
+            credentials: 'include'
+        }).then(() => {
+            changeLoginStatus(false);
+            navigate('/');
+        }).catch(err => console.log(err));
     }
 
     return (
