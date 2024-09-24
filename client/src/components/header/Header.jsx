@@ -3,7 +3,7 @@ import logo from '../../assets/react.svg';
 import { useContext } from 'react';
 import { GlobalContext } from '../../context/GlobalContext';
 export function Header() {
-    const { isLoggedIn, changeLoginStatus } = useContext(GlobalContext);
+    const { isLoggedIn, changeLoginStatus, username, role } = useContext(GlobalContext);
     const navigate = useNavigate();
     function logout() {
         fetch('http://localhost:5020/api/logout', {
@@ -41,6 +41,7 @@ export function Header() {
                     <Link to='/register' className="btn btn-primary">Register</Link>
                 </div>}
                 {isLoggedIn && <div className="col-md-3 text-end">
+                    <p>{username} ({role}) </p>
                     <Link to='/dashboard'>Dashboard</Link>
                     <button type='button' className="btn btn-outline-primary me-2 ms-2" onClick={logout}>Log out</button>
                 </div>}

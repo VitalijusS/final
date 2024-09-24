@@ -4,6 +4,8 @@ import { createContext, useEffect, useState } from "react";
 
 export const initialContext = {
     isLoggedIn: false,
+    role: 'public',
+    username: '',
     changeLoginStatus: () => { },
 };
 export const GlobalContext = createContext(initialContext);
@@ -11,6 +13,7 @@ export const GlobalContext = createContext(initialContext);
 export function GlobalContextWraper(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
     const [role, setRole] = useState(initialContext.role);
+    const [username, setUsername] = useState(initialContext.username);
 
     useEffect(() => {
         fetch('http://localhost:5020/api/login', {
@@ -20,6 +23,7 @@ export function GlobalContextWraper(props) {
             .then(data => {
                 setIsLoggedIn(data.isLoggedIn);
                 setRole(data.role);
+                changeUsername(data.username)
             })
             .catch(e => console.log(e))
     }, []);
@@ -31,11 +35,17 @@ export function GlobalContextWraper(props) {
         setRole(newRole);
     }
 
+    function changeUsername(newUsername = initialContext.username) {
+        setUsername(newUsername);
+    }
+
     const values = {
         isLoggedIn,
         changeLoginStatus,
         role,
-        changeRole
+        changeRole,
+        username,
+        changeUsername,
     };
 
     return (

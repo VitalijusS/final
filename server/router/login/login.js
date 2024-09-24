@@ -83,6 +83,7 @@ loginApiRouter.post('/', async (req, res) => {
             status: 'Success',
             data: 'Login was successful',
             isLoggedIn: true,
+            username: userData.username,
             role: userData.role,
         });
 })

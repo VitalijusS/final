@@ -13,7 +13,7 @@ export function Login() {
     const [passwordError, setPasswordError] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
 
-    const { changeLoginStatus, changeRole } = useContext(GlobalContext)
+    const { changeLoginStatus, changeRole, changeUsername } = useContext(GlobalContext)
     const navigate = useNavigate();
 
     function submitForm(e) {
@@ -53,7 +53,8 @@ export function Login() {
                     setApiResponse(data)
                     if (data.status === 'Success') {
                         changeLoginStatus(data.isLoggedIn);
-                        changeRole(data.role)
+                        changeRole(data.role);
+                        changeUsername(data.username);
                         navigate('/dashboard');
                     }
                 })
