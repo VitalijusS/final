@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
 import { PublicLocationsList } from "../components/locations/PublicLocationsList";
+import { AdminLocationsList } from "../components/locations/AdminLocationsList copy";
 
 export function LocationListing() {
     const [locations, setLocations] = useState([]);
@@ -34,6 +35,7 @@ export function LocationListing() {
                     </div>
                 </div>
                 <PublicLocationsList locations={locations} />
+                <AdminLocationsList locations={locations} />
             </main>
             <Footer />
         </>
