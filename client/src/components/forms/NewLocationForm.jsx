@@ -13,29 +13,22 @@ export function NewLocationForm() {
     const [isFormValidated, setIsFormValidated] = useState(false);
     const [apiResponse, setApiResponse] = useState(null);
 
+    function isValid(str) {
+        return typeof str === 'string' && str.trim().length > 0;
+    }
+
     function submitForm(e) {
         e.preventDefault();
 
         setIsFormValidated(true);
 
-        let usernameError = '';
-        // if (username.length < minUsernameLength) {
-        //     usernameError = `Slapyvardis yra per trumpas, turi būti minimum ${minUsernameLength} simbolių`;
-        // } else if (username.length > maxUsernameLength) {
-        //     usernameError = `Slapyvardis yra per ilgas, turi būti maximum ${maxUsernameLength} simbolių`;
-        // }
-        setUsernameError(usernameError);
+        setNameError(isValid(name) ? '' : 'Need location name');
+        setImgError(isValid(img) ? '' : 'Need image');
+        setCountryError(isValid(country) ? '' : 'Need country name');
+        setCityError(isValid(city) ? '' : 'Need city name');
 
-        let passwordError = '';
-        // if (password.length < minPasswordLength) {
-        //     passwordError = `Slaptažodis yra per trumpas, turi būti minimum ${minPasswordLength} simbolių`;
-        // } else if (password.length > maxPasswordLength) {
-        //     passwordError = `Slaptažodis yra per ilgas, turi būti maximum ${maxPasswordLength} simbolių`;
-        // }
-        setPasswordError(passwordError);
-
-        if (!usernameError && !passwordError) {
-            fetch('http://localhost:5020/api/locations/new', {
+        if (!nameError && !imgError && !countryError && !cityError) {
+            fetch('http://localhost:5020/api/locations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,8 +52,8 @@ export function NewLocationForm() {
                 <form onSubmit={submitForm} className="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                     <h1 className="h3 mb-3 fw-normal">New location</h1>
 
-                    {apiResponse && apiResponse.status === 'success' ? <p className="alert alert-success">{apiResponse.msg}</p> : null}
-                    {apiResponse && apiResponse.status === 'error' ? <p className="alert alert-danger">{apiResponse.msg}</p> : null}
+                    {apiResponse && apiResponse.status === 'success' ? <p className="alert alert-success">{apiResponse.message}</p> : null}
+                    {apiResponse && apiResponse.status === 'error' ? <p className="alert alert-danger">{apiResponse.message}</p> : null}
 
 
                     <div className="form-floating">
