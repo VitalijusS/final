@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
-import { LocationCard } from "../components/locations/LocationCard";
+import { PublicLocationsList } from "../components/locations/PublicLocationsList";
 
 export function LocationListing() {
     const [locations, setLocations] = useState([]);
@@ -33,13 +33,7 @@ export function LocationListing() {
                         </div>
                     </div>
                 </div>
-                <div className="container px-4 py-5" id="custom-cards">
-                    <div className="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-                        {
-                            locations.map((location, index) => <LocationCard key={index} {...location} />)
-                        }
-                    </div>
-                </div>
+                <PublicLocationsList locations={locations} />
             </main>
             <Footer />
         </>

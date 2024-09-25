@@ -5,7 +5,10 @@ import { isNonEmptyString } from '../../lib/isValid.js';
 export const locationsApiRouter = express.Router();
 
 locationsApiRouter.get('/', async (req, res) => {
-    const sql = 'SELECT * FROM locations;';
+    const sql = `SELECT name, img, country, city, street, number, zip 
+    FROM locations 
+    INNER JOIN address 
+        on address.id = locations.address_id;`;
     let dataFromServer = null;
     try {
         dataFromServer = await connection.execute(sql);
