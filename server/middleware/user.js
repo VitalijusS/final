@@ -3,6 +3,7 @@ import { env } from '../env.js'
 
 export async function userDetails(req, res, next) {
     req.user = {
+        id: -1,
         isLoggedIn: false,
         role: 'public',
         userName: ''
@@ -14,6 +15,7 @@ export async function userDetails(req, res, next) {
         try {
             const sql = `
             SELECT 
+                users.id,
                 users.username,
                 users.role,
                 tokens.created_at AS token_created_at,
@@ -29,6 +31,7 @@ export async function userDetails(req, res, next) {
                 req.user.isLoggedIn = true;
                 req.user.role = selectResult[0].role;
                 req.user.username = selectResult[0].username;
+                req.user.id = selectResult[0].id;
             }
         } catch (error) {
             console.log(error);

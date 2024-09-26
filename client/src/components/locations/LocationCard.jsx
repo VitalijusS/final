@@ -1,12 +1,29 @@
 /* eslint-disable react/prop-types */
+import { useContext } from 'react';
 import logo from '/vite.svg'
-export function LocationCard({ img, name, country }) {
+import { GlobalContext } from '../../context/GlobalContext';
+import { useNavigate } from 'react-router-dom';
+
+export function LocationCard({ img, name, country, id, isLiked }) {
+    const { isLoggedIn, addLike, removeLike } = useContext(GlobalContext);
+    const navigate = useNavigate();
+
+
+    function handleLikeClick() {
+        isLoggedIn ? addLike(id) : navigate('/login');
+
+    }
+    function handleDislikeClick() {
+        isLoggedIn ? removeLike(id) : navigate('/login');
+    }
     return (
         <div className="col">
             <div className="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-                style={{ backgroundImage: `url(${img})` }}
-            >
+                style={{ backgroundImage: `url(${img})` }}>
                 <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <div>
+                        {isLiked ? <button onClick={handleDislikeClick}>remove</button> : <button onClick={handleLikeClick}>add</button>}
+                    </div>
                     <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{name}</h3>
                     <ul className="d-flex list-unstyled mt-auto">
                         <li className="me-auto">

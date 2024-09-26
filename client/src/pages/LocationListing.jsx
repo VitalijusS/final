@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
 import { PublicLocationsList } from "../components/locations/PublicLocationsList";
 import { AdminLocationsList } from "../components/locations/AdminLocationsList copy";
+import { GlobalContext } from "../context/GlobalContext";
 
 export function LocationListing() {
     const [locations, setLocations] = useState([]);
-
+    const { role } = useContext(GlobalContext);
+    let list = null;
+    if (role === 'admin') {
+        list = <AdminLocationsList locations={locations} />;
+    } else {
+        list = <PublicLocationsList locations={locations} />;
+    }
     useEffect(() => {
         fetch('http://localhost:5020/api/locations')
             .then(res => res.json())
@@ -34,8 +41,7 @@ export function LocationListing() {
                         </div>
                     </div>
                 </div>
-                <PublicLocationsList locations={locations} />
-                <AdminLocationsList locations={locations} />
+                {list}
             </main>
             <Footer />
         </>

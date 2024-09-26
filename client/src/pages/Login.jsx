@@ -6,10 +6,10 @@ import { GlobalContext } from "../context/GlobalContext";
 
 
 export function Login() {
-    const [username, setUsername] = useState('jonas');
+    const [username, setUsername] = useState('admin');
     const [usernameError, setUsernameError] = useState('');
     const [isFormValidated, setIsFormValidated] = useState(false);
-    const [password, setPassword] = useState('jonasjonasjonas');
+    const [password, setPassword] = useState('adminadminadmin');
     const [passwordError, setPasswordError] = useState('');
     const [apiResponse, setApiResponse] = useState(null);
 
